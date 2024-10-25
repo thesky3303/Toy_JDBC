@@ -1,0 +1,11 @@
+package toy.service;
+
+import java.util.Map;
+
+public interface StdListService {
+
+Map<String, Object> StdListFullView() throws Exception;
+
+int Add(String title, String detail) throws Exception;
+
+}

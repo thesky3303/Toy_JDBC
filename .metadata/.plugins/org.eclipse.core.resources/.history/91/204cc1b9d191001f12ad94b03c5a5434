@@ -1,0 +1,5 @@
+package toy.service;
+
+public class StdListServiceImpl implements StdListService{
+
+}

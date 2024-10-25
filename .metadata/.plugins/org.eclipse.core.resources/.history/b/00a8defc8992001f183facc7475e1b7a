@@ -1,0 +1,5 @@
+package joy2.common;
+
+public class JDBCTemplate {
+
+}

@@ -1,0 +1,127 @@
+package toy.dao;
+
+import static toy.common.JDBCTemplate.close;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import toy.dto.Std;
+
+public class StdListDAOImpl implements StdListDAO {
+
+
+	// JDBC 객체 참조변수 + Properties 참조 변수 선언
+	private Statement stmt;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
+	
+	private Properties prop;
+	
+	public StdListDAOImpl() {
+
+		try {
+			
+			String filePath = StdListDAOImpl.class
+					.getResource("/xml/sql.xml").getPath();
+			
+			prop = new Properties();
+			prop.loadFromXML(new FileInputStream(filePath));
+			
+			
+		} catch (Exception e) {
+			System.out.println("sql.xml 로드 중 예외발생");
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
+	@Override
+	public List<Std> stdListFullView(Connection conn) throws Exception{
+		
+		// 결과 저장용 변수 선언
+		List<Std> todoList = new ArrayList<Std>();
+		
+		try {
+			String sql = prop.getProperty("stdListFullView");
+			
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				
+				boolean complete = rs.getInt("TODO_COMPLETE") == 1;
+				
+				Todo todo = Todo.builder()
+							.todoNo(rs.getInt("TODO_NO"))
+							.title(rs.getString("TODO_TITLE"))
+							.complete(complete)
+							.regDate(rs.getString("REG_DATE"))
+							.build();
+				
+				todoList.add(todo);
+				
+				
+			}
+			
+			
+		} finally {
+			close(rs);
+			close(stmt);
+		}
+		
+		return todoList;
+		
+	}
+
+	
+	
+	
+	
+	@Override
+	public int getCompleteCount(Connection conn) throws Exception{
+		
+		int completeCount = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("getCompleteCount");
+			
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				completeCount = rs.getInt(1);
+			}
+			
+			
+		} finally {
+			close(rs);
+			close(stmt);
+		}
+		
+		return completeCount;
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

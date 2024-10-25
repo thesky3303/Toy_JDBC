@@ -1,0 +1,40 @@
+package toy.service;
+
+import static toy.common.JDBCTemplate.getConnction;
+
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import toy.dao.StdListDAO;
+import toy.dao.StdListDAOImpl;
+import toy.dto.Std;
+
+public class StdListServiceImpl implements StdListService{
+
+	private StdListDAO dao = new StdListDAOImpl();
+
+	@Override
+	public Map<String, Object> todoListFullView() throws Exception {
+		
+		Connection conn = getConnction();
+		
+		// 할 일 목록 얻어오기 (dao 호출 및 반환 받기)
+		List<Std> stdList = dao.stdListFullView(conn);
+		
+		// 완료된 할 일 개수 카운트 (dao 호출 및 반환 받기)
+		int completeCount = dao.getCompleteCount(conn);
+		
+		// 메서드에서 반환은 하나의 값 또는 객체밖에 할 수 없기 때문에
+		// Map 이라는 컬렉션을 이용해 여러 값을 한번에 묶어서 반환
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("todoList", stdList);
+		map.put("completeCount", completeCount);
+		
+		
+		return map;
+	}
+	
+}

@@ -1,0 +1,31 @@
+package toy.service;
+
+import static toy.common.JDBCTemplate.getConnction;
+
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import toy.dao.StdListDAO;
+import toy.dao.StdListDAOImpl;
+import toy.dto.Std;
+
+public class StdListServiceImpl implements StdListService{
+
+	private StdListDAO dao = new StdListDAOImpl();
+
+	@Override
+	public Map<String, Object> stdListFullView() throws Exception {
+		
+		Connection conn = getConnction();
+		List<Std> stdList = dao.stdListFullView(conn);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stdList", stdList);
+
+		return map;
+	}
+
+	
+}

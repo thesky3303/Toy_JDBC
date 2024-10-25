@@ -1,0 +1,16 @@
+package java.toy2.dao;
+
+import java.sql.Connection;
+import java.toy2.dto.Std;
+import java.util.List;
+
+public interface StdListDAO {
+
+	List<Std> stdListFullView(Connection conn) throws Exception;
+
+	int stdAdd(Connection conn, String stdName, int stdAge, String stdGender, String stdScore)
+			throws Exception;
+
+	Std stdDetailView(Connection conn, int stdNo) throws Exception;
+
+}

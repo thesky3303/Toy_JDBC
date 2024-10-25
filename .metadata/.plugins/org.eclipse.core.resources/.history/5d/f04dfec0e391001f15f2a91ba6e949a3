@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<!-- 할 일 전체 조회 -->
+	<entry key="stdListFullView">
+		SELECT 
+			STD_NO, 
+			STD_NAME, 
+			STD_AGE, 
+			STD_GENDER,
+			STD_SCORE
+		FROM TB_STUDENT
+	</entry>
+	
+		<!-- 할 일 추가 -->
+	<entry key="stdAdd">
+		INSERT INTO TB_STUDENT
+		VALUES(SEQ_TODO_NO.NEXTVAL, ?, ?, DEFAULT, DEFAULT)
+	</entry>
+	
+</properties>

@@ -1,0 +1,14 @@
+package toy.dao;
+
+import java.sql.Connection;
+import java.util.List;
+
+import toy.dto.Std;
+
+public interface StdListDAO() throws Exception {
+
+	List<Std> stdListFullView(Connection conn);
+
+	int getCompleteCount(Connection conn);
+
+}

@@ -1,0 +1,5 @@
+package toy2.common;
+
+public class JDBCTemplate {
+
+}

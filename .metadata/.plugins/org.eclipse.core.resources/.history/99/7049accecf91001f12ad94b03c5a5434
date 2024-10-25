@@ -1,0 +1,40 @@
+package toy.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+
+@WebServlet("/")
+public class MainServlet extends HttpServlet{
+
+	try {
+		
+
+		StdListService service = new StdListServiceImpl();
+		
+
+		Map<String, Object> map = service.todoListFullView();
+		
+		
+		// Map 에 저장된 값 풀어내기
+		List<Std> todoList = (List<Std>)map.get("stdList");
+		int completeCount = (int)map.get("completeCount");
+		
+
+		req.setAttribute("stdList", stdList);
+		req.setAttribute("completeCount", completeCount);
+		
+		String path = "/WEB-INF/views/main.jsp";
+		req.getRequestDispatcher(path).forward(req, resp);
+		
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
+
+//--
+}
+

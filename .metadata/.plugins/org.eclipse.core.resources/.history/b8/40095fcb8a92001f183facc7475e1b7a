@@ -1,0 +1,35 @@
+package toy.controller;
+
+
+
+@WebServlet("/")
+public class MainServlet extends HttpServlet{
+	
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+      
+		try {
+			
+			StdListService service = new StdListServiceImpl();
+			
+			Map<String, Object> map = service.StdListFullView();
+			
+			List<Std> stdList = (List<Std>)map.get("stdList");
+			
+	
+			req.setAttribute("stdList", stdList);
+			
+			String path = "/WEB-INF/views/main.jsp";
+			req.getRequestDispatcher(path).forward(req, resp);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	 
+	}
+	
+	
+} //--

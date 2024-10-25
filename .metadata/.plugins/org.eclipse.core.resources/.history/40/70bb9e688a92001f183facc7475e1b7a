@@ -1,0 +1,5 @@
+package toy.dao;
+
+public class StdListDAOImpl {
+
+}
