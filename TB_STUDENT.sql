@@ -53,13 +53,15 @@ VALUES(SEQ_STD_NO.NEXTVAL, '육길동', '25', 'F', 'A');
 COMMIT;
 
 
-SELECT * FROM TB_STUDENT;
+SELECT * FROM TB_STUDENT
+ORDER BY STD_NO;
 
 ROLLBACK;
 
 select SEQ_STD_NO.nextval from dual;
 
-alter sequence SEQ_STD_NO increment by 1;
+alter sequence SEQ_STD_NO increment BY 1;
 
 DELETE FROM TB_STUDENT 
-WHERE STD_NO >= 5;
+WHERE STD_NO > 1;
+

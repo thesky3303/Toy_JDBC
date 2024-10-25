@@ -13,7 +13,7 @@ import toy.dto.Std;
 import toy.service.StdListService;
 import toy.service.StdListServiceImpl;
 
-@WebServlet("/")
+@WebServlet("/main")
 public class MainServlet extends HttpServlet{
 	
 
@@ -25,7 +25,7 @@ public class MainServlet extends HttpServlet{
 			
 			StdListService service = new StdListServiceImpl();
 			
-			Map<String, Object> map = service.StdListFullView();
+			Map<String, Object> map = service.stdListFullView();
 			
 			List<Std> stdList = (List<Std>)map.get("stdList");
 			
@@ -38,7 +38,7 @@ public class MainServlet extends HttpServlet{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	 
 	}
 	

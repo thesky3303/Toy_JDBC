@@ -19,7 +19,7 @@ public class StdListServiceImpl implements StdListService{
 	private StdListDAO dao = new StdListDAOImpl();
 
 	@Override
-	public Map<String, Object> StdListFullView() throws Exception {
+	public Map<String, Object> stdListFullView() throws Exception {
 		Connection conn = getConnction();
 		List<Std> stdList = dao.stdListFullView(conn);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -46,7 +46,40 @@ public class StdListServiceImpl implements StdListService{
 		close(conn);
 		return std;
 	}
+
+
+	@Override
+	public int stdDelte(int stdNo) throws Exception {
+	Connection conn = getConnction();
+		
+		int result = dao.stdDelete(conn, stdNo);
+		
+		if(result > 0) commit(conn);
+		else 		   rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	@Override
+	public int stdUpdate(int stdNo, String stdName, int stdAge, String stdGender, String stdScore) throws Exception {
 	
+		Connection conn = getConnction();
+		
+		int result = dao.stdUpdate(conn, stdNo, stdName, stdAge, stdGender, stdScore);
+		
+		if(result > 0) commit(conn);
+		else 		   rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+
 	
 	
 }

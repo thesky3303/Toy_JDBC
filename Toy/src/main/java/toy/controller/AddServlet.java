@@ -26,19 +26,26 @@ public class AddServlet extends HttpServlet {
 			int stdAge = Integer.parseInt(req.getParameter("stdAge"));
 			String stdGender = req.getParameter("stdGender");
 			String stdScore = req.getParameter("stdScore");
-			
 			int result = service.stdAdd(stdName,stdAge,stdGender,stdScore);
-			
-			String message = null;
-			if ( result > 0 ) message = "추가 성공!";
-			else			  message = "추가 실패";
-			
 			HttpSession session = req.getSession();
-			session.setAttribute("message", message);
 			
-			resp.sendRedirect("/");
+			if(result > 0 ) {
+				session.setAttribute("message", "추가 되었습니다!");
+				resp.sendRedirect("/");
+				return;
+			}
+			
+			if(result == 0) {
+				session.setAttribute("message", "추가 실패 ");
+				resp.sendRedirect("/");
+				return;
+			}
 
-
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

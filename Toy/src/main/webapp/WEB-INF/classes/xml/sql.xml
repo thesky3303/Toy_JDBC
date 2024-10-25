@@ -11,6 +11,7 @@
 			STD_GENDER,
 			STD_SCORE
 		FROM TB_STUDENT
+		ORDER BY 1
 	</entry>
 	
 		<!-- 할 일 추가 -->
@@ -30,6 +31,19 @@
 		WHERE STD_NO = ?
 	</entry>
 	
+	<entry key="stdDelte">
+		DELETE FROM TB_STUDENT 
+		WHERE STD_NO = ?
+	</entry>
+	
+	<entry key="stdUpdate">
+		UPDATE TB_STUDENT 
+		SET STD_NAME = ?, 
+			STD_AGE = ?, 
+			STD_GENDER = ?,
+			STD_SCORE = ?
+		WHERE STD_NO = ?
+	</entry>
 	
 	
 	

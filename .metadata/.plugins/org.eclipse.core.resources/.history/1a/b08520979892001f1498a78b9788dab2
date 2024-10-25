@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>성별 입력 검증</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-left: 10px;
+            display: none;
+        }
+        
+        .input-container {
+            margin: 20px;
+        }
+        
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <label for="genderInput">성별 (M 또는 F):</label>
+        <input type="text" id="genderInput" maxlength="1" onkeyup="validateGender(this.value)">
+        <span id="errorMessage" class="error-message">M 또는 F만 입력 가능합니다.</span>
+    </div>
+
+    <script>
+        function validateGender(value) {
+            const errorMessage = document.getElementById('errorMessage');
+            const input = document.getElementById('genderInput');
+            
+            // 대문자로 변환
+            value = value.toUpperCase();
+            input.value = value;
+            
+            if (value === '') {
+                errorMessage.style.display = 'none';
+                return;
+            }
+            
+            if (value !== 'M' && value !== 'F') {
+                errorMessage.style.display = 'inline';
+                input.style.borderColor = 'red';
+            } else {
+                errorMessage.style.display = 'none';
+                input.style.borderColor = '';
+            }
+        }
+    </script>
+</body>
+</html>

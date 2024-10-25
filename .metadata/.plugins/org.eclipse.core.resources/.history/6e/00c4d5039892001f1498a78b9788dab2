@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>대문자 체크</title>
+<style>
+    .error-message {
+        color: red;
+        margin-left: 10px;
+        display: none;
+    }
+    .input-container {
+        margin: 20px;
+    }
+    input {
+        padding: 5px;
+        font-size: 16px;
+    }
+</style>
+<script>
+function checkUpperCase(input) {
+    var errorMsg = document.getElementById('errorMessage');
+    var inputValue = input.value;
+    
+    // 입력값이 비어있지 않은 경우에만 체크
+    if(inputValue.length > 0) {
+        // 입력된 문자열이 대문자와 같은지 비교
+        if(inputValue !== inputValue.toUpperCase()) {
+            errorMsg.style.display = 'inline';
+            input.style.borderColor = 'red';
+        } else {
+            errorMsg.style.display = 'none';
+            input.style.borderColor = '';
+        }
+    } else {
+        errorMsg.style.display = 'none';
+        input.style.borderColor = '';
+    }
+}
+</script>
+</head>
+<body>
+    <div class="input-container">
+        <input type="text" 
+               onkeyup="checkUpperCase(this)" 
+               placeholder="대문자를 입력하세요">
+        <span id="errorMessage" class="error-message">
+            대문자만 입력 가능합니다!
+        </span>
+    </div>
+</body>
+</html>

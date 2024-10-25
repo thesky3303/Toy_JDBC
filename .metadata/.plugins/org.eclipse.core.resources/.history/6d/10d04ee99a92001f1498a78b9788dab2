@@ -1,0 +1,199 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학생 목록</title>
+  <link href="/resources/css/main.css" rel="stylesheet">
+  
+	
+	<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 20px;
+	}
+	
+	th, td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: left;
+	}
+	
+	th {
+		background-color: #f2f2f2;
+	}
+	
+	tr:nth-child(even) {
+		background-color: #f9f9f9;
+	}
+	
+	tr:hover {
+		background-color: #f5f5f5;
+	}
+	
+	
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-left: 10px;
+            display: none;
+        }
+        
+        .input-container {
+            margin: 20px;
+        }
+        
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+        
+                .error-message2 {
+            color: red;
+            font-size: 14px;
+            margin-left: 10px;
+            display: none;
+        }
+    
+	</style>
+	
+</head>
+
+
+<body>
+  <h1>학생 목록</h1>
+  <hr>
+
+  <h4>학생 추가</h4>
+  <form action="/std/add" method="post" id="addForm" onsubmit="return validateForm();">
+   <div class="input-container">
+		학생명 : <input type="text" name="stdName"  > <br>
+		나이   : <input type="text" name="stdAge" > <br>
+		성별   :
+      		 <label for="genderInput"></label>
+       		 <input type="text" id="genderInput"
+       		 		name="stdGender" 
+       		 		maxlength="1" 
+       		 		onkeyup="validateGender(this.value)"
+       		 		placeholder="M / F만 입력하세요">
+       		 <span id="errorMessage" class="error-message">M 또는 F만 입력 가능합니다.</span><br>
+       	점수   : 
+            <input type="text" 
+               id="uppercaseInput" 
+               name="stdScore" 
+               onkeyup="convertToUpperCase(this)"
+               placeholder="A ~ F만 입력하세요"> <br>
+     
+      
+              <label for="gradeInput"></label>
+   <label for="grade">성적 입력:</label>
+        <input type="text" 
+               id="grade" 
+               name="stdScore" 
+               maxlength="1" 
+               onkeyup="validateAndConvert(this)" 
+               onblur="validateAndConvert(this)">
+        <span id="errorMessage2" class="error-message2">A, B, C, D, F만 입력 가능합니다.</span>
+            올바른 성적이 아닙니다. A,B,C,D,F만 입력 가능합니다.
+        </span>
+        
+        
+    </div>
+
+    <button>추가</button>
+  </form>
+
+  <hr>
+  
+    <h2>학생 정보 목록</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="std" items="${stdList}">
+                <tr>
+                    <td>${std.stdNo} </td>
+                    <td>
+                    <a href="/std/detail?stdNo=${std.stdNo}">${std.stdName}</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+    
+    <script>
+        function validateGender(value) {
+            const errorMessage = document.getElementById('errorMessage');
+            const input = document.getElementById('genderInput');
+            
+            // 대문자로 변환
+            value = value.toUpperCase();
+            input.value = value;
+            
+            if (value === '') {
+                errorMessage.style.display = 'none';
+                return;
+            }
+            
+            if (value !== 'M' && value !== 'F') {
+                errorMessage.style.display = 'inline';
+                input.style.borderColor = 'red';
+            } else {
+                errorMessage.style.display = 'none';
+                input.style.borderColor = '';
+            }
+        }
+        
+        function validateGrade() {
+            var gradeInput = document.getElementById("gradeInput").value.toUpperCase();
+            var errorMessage = document.getElementById("errorMessage");
+            
+            // 정규식을 사용하여 A,B,C,D,F만 허용
+            var validGrades = /^[ABCDF]$/;
+            
+            if (!validGrades.test(gradeInput)) {
+                errorMessage.style.display = "inline";
+                return false;
+            } else {
+                errorMessage.style.display = "none";
+                return true;
+            }
+        }
+    </script>
+    
+    	<%-- JS 연결 --%>
+  <script src="/resources/js/main.js"></script>
+    
+     <%
+    // 폼이 제출되었을 때 입력값 처리
+    String uppercaseValue = request.getParameter("uppercaseInput");
+    if (uppercaseValue != null && !uppercaseValue.isEmpty()) {
+    %>
+        <p>입력된 값: <%= uppercaseValue %></p>
+    <%
+    }
+    %> 
+
+  <%-- session 범위에 message가 있을 경우 --%>
+  <c:if test="${not empty sessionScope.message}">
+  	<script>
+  		alert("${message}");
+  	</script>
+  	
+  	<%-- message를 한 번만 출력하고 제거 --%>
+  	<c:remove var="message" scope="session"/> 
+  </c:if>
+
+  
+</body>
+</html>
